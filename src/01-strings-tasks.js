@@ -66,7 +66,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-  return value.replace('Hello,', '').replace('!', '').trim();
+  return value.replace('Hello, ', '').replace('!', '');
 }
 
 
@@ -202,8 +202,30 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let up = '';
+  let down = '';
+  let aside = '';
+  for (let i = 0; i < width - 1; i += 1) {
+    if (i === 0) {
+      up += '┌';
+      down += '└';
+      aside += '│';
+    } else {
+      up += '─';
+      down += '─';
+      aside += ' ';
+    }
+  }
+  up += '┐\n';
+  down += '┘\n';
+  aside += '│\n';
+  let result = up;
+  for (let i = 0; i < height - 2; i += 1) {
+    result += aside;
+  }
+  result += down;
+  return result;
 }
 
 
@@ -223,8 +245,25 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const al = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let result = '';
+  for (let i = 0; i < str.length; i += 1) {
+    if (al.indexOf(str[i]) === -1) {
+      result += str[i];
+    } else {
+      const newIndex = (al.indexOf(str[i]) + 13) % al.length;
+      let newLetter = al[newIndex];
+      if (str[i].toUpperCase() !== str[i]) {
+        newLetter = newLetter.toLowerCase();
+      }
+      if (str[i].toUpperCase() === str[i]) {
+        newLetter = newLetter.toUpperCase();
+      }
+      result += newLetter;
+    }
+  }
+  return result;
 }
 
 /**
