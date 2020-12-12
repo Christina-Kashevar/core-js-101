@@ -176,7 +176,7 @@ function getHead(arr, n) {
  *    [ 'a', 'b', 'c', 'd'], 3  => [ 'b', 'c', 'd' ]
  */
 function getTail(arr, n) {
-  return arr.slice(arr.length - n, arr.length);
+  return arr.slice(arr.length - n);
 }
 
 
@@ -234,9 +234,8 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  throw new Error('Not implemented');
-  // return arr.map((item, index) => arr[index] + arr[index - 1]);
+function getMovingSum(arr) {
+  return arr.map((item, index) => arr.slice(0, index + 1).reduce((a, b) => a + b, 0));
 }
 
 /**
@@ -269,8 +268,8 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.map((item, index) => Array(index + 1).fill(item)).flat();
 }
 
 
@@ -419,9 +418,8 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
-  // arr.sort((a, b) => a.country - b.country)
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => (a.country + a.city < b.country + b.city ? -1 : 1));
 }
 
 /**
@@ -442,8 +440,9 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const array = Array(n).fill(0).map(() => Array(n).fill(0));
+  return array.map((item, index) => item.map((num, index2) => (index === index2 ? 1 : 0)));
 }
 
 /**
@@ -459,8 +458,9 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  const length = Math.abs(end - start + 1);
+  return Array(length).fill(0).map((item, index) => start + index);
 }
 
 /**
@@ -474,8 +474,13 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return arr.reduce((a, b) => {
+    if (a.indexOf(b) === -1) {
+      a.push(b);
+    }
+    return a;
+  }, []);
 }
 
 /**
