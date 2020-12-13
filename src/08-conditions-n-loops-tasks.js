@@ -168,8 +168,14 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const arr = str.split('');
+  return arr.reduce((array, letter) => {
+    if (array.indexOf(letter) === -1) {
+      array.push(letter);
+    }
+    return array;
+  }, [])[0];
 }
 
 
@@ -195,8 +201,21 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let result = '';
+  if (isStartIncluded) {
+    result += '[';
+  } else {
+    result += '(';
+  }
+  if (a < b) result += `${a}, ${b}`;
+  if (a > b) result += `${b}, ${a}`;
+  if (isEndIncluded) {
+    result += ']';
+  } else {
+    result += ')';
+  }
+  return result;
 }
 
 
@@ -254,8 +273,20 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const ccnA = ccn.toString().split('');
+  let result;
+  let result2;
+  if (ccnA.length % 2 === 0) {
+    result = ccnA.map((item, index) => (index % 2 === 0 ? item * 2 : item));
+    result2 = result.map((item2) => (item2 > 9 ? item2 - 9 : item2));
+  }
+  if (ccnA.length % 2 !== 0) {
+    result = ccnA.map((item3, index3) => (index3 % 2 !== 0 ? item3 * 2 : item3));
+    result2 = result.map((item4) => (item4 > 9 ? item4 - 9 : item4));
+  }
+  const finalRes = result2.reduce((a, b) => +a + +b, 0);
+  return (finalRes % 10 === 0);
 }
 
 /**
@@ -411,8 +442,24 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(pos) {
+  for (let i = 0; i < 3; i += 1) {
+    if (pos[i][0] === pos[i][1] && pos[i][0] === pos[i][2] && !!pos[i][0]) {
+      return pos[i][0];
+    }
+  }
+  for (let i = 0; i < 3; i += 1) {
+    if (pos[0][i] === pos[1][i] && pos[0][i] === pos[2][i] && !!pos[0][i]) {
+      return pos[0][i];
+    }
+  }
+  if (pos[0][0] === pos[1][1] && pos[0][0] === pos[2][2] && !!pos[0][0]) {
+    return pos[0][0];
+  }
+  if (pos[0][2] === pos[1][1] && pos[0][2] === pos[2][0] && !!pos[0][2]) {
+    return pos[0][2];
+  }
+  return undefined;
 }
 
 
