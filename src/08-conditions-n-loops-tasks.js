@@ -152,8 +152,9 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const position = (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2;
+  return position < circle.radius ** 2;
 }
 
 
@@ -169,13 +170,12 @@ function isInsideCircle(/* circle, point */) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  const arr = str.split('');
-  return arr.reduce((array, letter) => {
-    if (array.indexOf(letter) === -1) {
-      array.push(letter);
+  for (let i = 0; i < str.length; i += 1) {
+    if (str.lastIndexOf(str[i]) === str.indexOf(str[i])) {
+      return str[i];
     }
-    return array;
-  }, [])[0];
+  }
+  return null;
 }
 
 
@@ -384,8 +384,35 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const pathLength = pathes.length;
+  let common = '';
+  for (let i = 1; i < pathLength; i += 1) {
+    common += ';';
+    for (let j = 0; j < pathes[0].length; j += 1) {
+      if (pathes[0][j] === pathes[i][j]) {
+        common += pathes[0][j];
+      } else {
+        break;
+      }
+    }
+  }
+  const newStr = common.slice(1);
+  let target;
+  if (!newStr.includes(';')) {
+    target = newStr;
+  } else {
+    const arr = newStr.split(';');
+    let newTarget = arr[0];
+    for (let z = 1; z < arr.length; z += 1) {
+      if (newTarget.length > arr[z].length) {
+        newTarget = arr[z];
+      }
+    }
+    target = newTarget;
+  }
+  const indexF = target.lastIndexOf('/');
+  return target.slice(0, indexF + 1);
 }
 
 
